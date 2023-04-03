@@ -19,7 +19,7 @@ import logging
 from collections import defaultdict
 from shapely.geometry import Polygon
 
-from libs.datasets.image_utils import Compose, RandomResizedCropAndInterpolationWithTwoPic
+from libs.datasets.image_utils import Compose, RandomResizedCropAndInterpolationWithTwoPic, pil_loader
 
 label2ids_span_gp = {
     "BACKGROUND": 0,
@@ -475,8 +475,9 @@ class t1_test_dataset_gp(Dataset):
         position_ids = self.feature['position_ids'][index]
 
         img = pil_loader(self.feature['image_path'][index])
-        for_patches, _ = self.common_transform(img, augmentation=False)
-        patch = self.patch_transform(for_patches)
+        #for_patches, _ = self.common_transform(img, augmentation=False)
+        # patch = self.patch_transform(for_patches)
+        patch = self.patch_transform(img)
 
 
         in_doc_token_offset = self.feature['in_doc_token_offset'][index]
@@ -499,10 +500,3 @@ class t1_test_dataset_gp(Dataset):
             'doc_ids': doc_ids
         }
         return res
-
-
-def pil_loader(path: str) -> Image.Image:
-    # open path as file to avoid ResourceWarning (https://github.com/python-pillow/Pillow/issues/835)
-    with open(path, 'rb') as f:
-        img = Image.open(f)
-        return img.convert('RGB')

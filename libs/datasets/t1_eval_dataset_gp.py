@@ -20,7 +20,10 @@ import logging
 from collections import defaultdict
 from shapely.geometry import Polygon
 
+raise NotImplementedError("历史遗留 这个脚本不应该被使用")
+
 from layoutlmft.data.image_utils import Compose, RandomResizedCropAndInterpolationWithTwoPic
+
 
 label2ids_span_gp = {
     "BACKGROUND": 0,
